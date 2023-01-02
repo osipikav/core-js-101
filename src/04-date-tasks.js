@@ -6,7 +6,6 @@
  *                                                                                           *
  ******************************************************************************************* */
 
-
 /**
  * Parses a rfc2822 string date representation into date value
  * For rfc2822 date specification refer to : http://tools.ietf.org/html/rfc2822#page-14
@@ -19,10 +18,9 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
 }
-
 /**
  * Parses an ISO 8601 string date representation into date value
  * For ISO 8601 date specification refer to : https://en.wikipedia.org/wiki/ISO_8601
@@ -34,10 +32,9 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return new Date(value);
 }
-
 
 /**
  * Returns true if specified date is leap year and false otherwise
@@ -56,7 +53,6 @@ function parseDataFromIso8601(/* value */) {
 function isLeapYear(/* date */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the string representation of the timespan between two dates.
@@ -77,7 +73,6 @@ function timeSpanToString(/* startDate, endDate */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Returns the angle (in radians) between the hands of an analog clock
  * for the specified Greenwich time.
@@ -94,10 +89,17 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  const min = Math.floor((date / 60000) % 60);
+  const hour = Math.floor((date / 3600000) % 12);
+  const hourAngle = 30 * hour;
+  const minAngle = 6 * min - 0.5 * min;
+  const angle = Math.abs(hourAngle - minAngle);
+  if (angle > 180) {
+    return Math.abs((360 - angle) * (Math.PI / 180));
+  }
+  return Math.abs(angle * (Math.PI / 180));
 }
-
 
 module.exports = {
   parseDataFromRfc2822,
